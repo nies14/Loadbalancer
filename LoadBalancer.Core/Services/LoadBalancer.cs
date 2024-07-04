@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.SignalR;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -6,15 +7,17 @@ namespace LoadBalancer.Core.Services;
 
 public class LoadBalancer : ILoadBalancer
 {
-    private readonly List<IBackendServer> _servers;
+    private readonly List<IBackendServerCommunicator> _servers;
     private int _currentIndex;
     private readonly TimeSpan _healthCheckInterval;
+    private readonly IHubContext<ServerStatusHub> _hubContext;
 
-    public LoadBalancer(List<IBackendServer> servers, TimeSpan healthCheckInterval)
+    public LoadBalancer(List<IBackendServerCommunicator> servers, TimeSpan healthCheckInterval, IHubContext<ServerStatusHub> hubContext)
     {
         _servers = servers;
         _currentIndex = 0;
         _healthCheckInterval = healthCheckInterval;
+        _hubContext = hubContext;
     }
 
     public async Task StartAsync()
@@ -69,6 +72,7 @@ public class LoadBalancer : ILoadBalancer
             foreach (var server in _servers)
             {
                 server.IsHealthy = await server.CheckHealthAsync();
+                await _hubContext.Clients.All.SendAsync("UpdateServerStatus", server.Host, server.Port, server.IsHealthy);
             }
             await Task.Delay(_healthCheckInterval);
         }

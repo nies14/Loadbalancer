@@ -1,12 +1,12 @@
 ﻿namespace LoadBalancer.Core.Services;
 
-public class BackendServer : IBackendServer
+public class BackendServerCommunicator : IBackendServerCommunicator
 {
     public string Host { get; }
     public int Port { get; }
     public bool IsHealthy { get; set; }
 
-    public BackendServer(string host, int port)
+    public BackendServerCommunicator(string host, int port)
     {
         Host = host;
         Port = port;

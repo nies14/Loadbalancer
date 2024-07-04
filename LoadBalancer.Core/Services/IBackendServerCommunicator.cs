@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoadBalancer.Core.Services;
 
-public interface IBackendServer
+public interface IBackendServerCommunicator
 {
     string Host { get; }
     int Port { get; }
