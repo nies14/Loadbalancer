@@ -38,23 +38,6 @@ public class Startup
             endpoints.MapHub<ServerStatusHub>("/serverStatusHub");
         });
 
-        //var url = $"http://localhost:5065/api/Server/list";
-        //using var client = new HttpClient();
-        //var response = await client.GetAsync(url);
-        //var servers = new List<IBackendServerCommunicator>();
-
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    var jsonString = await response.Content.ReadAsStringAsync();
-        //    var servers1 = JsonConvert.DeserializeObject<List<ServerResponse>>(jsonString);
-
-        //    foreach(var server in servers1)
-        //    {
-        //        servers.Add(new BackendServerCommunicator(server.Host, server.Port));
-        //    }
-
-        //}
-
         // Initialize the Load Balancer
         var servers = new List<IBackendServerCommunicator>
             {
