@@ -1,0 +1,40 @@
+﻿@page "/serverstatus"
+@model LoadBalancer.API.Pages.ServerStatusModel
+@{
+    ViewData["Title"] = "Server Status";
+}
+
+@*
+<h2>Server Status</h2>
+<ul id="serverStatusList"></ul>
+
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/serverStatusHub")
+        .build();
+
+    connection.on("UpdateServerStatus", (host, port, isHealthy) => {
+        const serverStatusList = document.getElementById("serverStatusList");
+        const serverStatus = document.createElement("li");
+        serverStatus.textContent = `Server: ${host}:${port} - Status: ${isHealthy ? "Healthy" : "Unhealthy"}`;
+        serverStatusList.appendChild(serverStatus);
+    });
+
+    function fulfilled()
+    {
+        console.log("Connection started");
+    }
+
+    function rejected() {
+        console.log("Connection rejected");
+    }
+
+    connection.start().then(fulfilled, rejected);
+</script>*@
+
+
+<h1>Server Status</h1>
+<ul id="serverStatusList"></ul>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+<script src="~/js/serverStatus.js"></script>
